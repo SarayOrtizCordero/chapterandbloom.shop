@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@theme {
+  --color-lavender: #cdc4d7;
+  --color-lavender-soft: #e6e0ec;
+  --color-mint: #b8e8ee;
+  --color-mint-soft: #dcf3f6;
+  --color-ink: #312a44;
+  --color-ink-soft: #5d5473;
+  --color-rose: #d7c5d2;
+  --color-rose-deep: #a9809b;
+  --color-cream: #faf3f1;
+  --color-orchid: #9b6fb3;
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-dm), system-ui, sans-serif;
+
+  --shadow-soft: 0 10px 30px -12px rgb(49 42 68 / 0.28);
+  --shadow-pop: 0 18px 40px -16px rgb(49 42 68 / 0.4);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  letter-spacing: -0.01em;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-orchid);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.85rem 1.6rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-cream);
+  box-shadow: var(--shadow-soft);
+}
+.btn-primary:hover {
+  box-shadow: var(--shadow-pop);
+}
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-mint {
+  background: var(--color-mint);
+  color: var(--color-ink);
+}
+.btn-ghost {
+  border: 2px solid var(--color-ink);
+  color: var(--color-ink);
+}
+.btn-ghost:hover {
+  background: var(--color-ink);
+  color: var(--color-cream);
+}
+
+.sparkle-bg {
+  background-image: radial-gradient(circle, rgb(155 111 179 / 0.18) 1.5px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-10px) rotate(var(--r, 0deg)); }
+}
+.floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.fade-up {
+  animation: fade-up 0.6s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floaty, .fade-up { animation: none; }
+  html { scroll-behavior: auto; }
+  .btn:hover { transform: none; }
+}

@@ -1,0 +1,22 @@
+# dependencias y build
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# secretos y entorno local
+.env
+.env.*
+!.env.example
+
+# sistema y herramientas
+.DS_Store
+Thumbs.db
+.vercel/
+.claude/
+npm-debug.log*
+
+# infografías originales de la clienta (no las usa la web)
+public/brand/finishes.jpg
+public/brand/models.jpg

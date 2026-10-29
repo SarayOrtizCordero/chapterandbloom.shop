@@ -10,7 +10,7 @@
   --color-rose: #d7c5d2;
   --color-rose-deep: #a9809b;
   --color-cream: #faf3f1;
-  --color-orchid: #9b6fb3;
+  --color-teal: #2f8f9d;
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-dm), system-ui, sans-serif;
@@ -43,7 +43,7 @@ body {
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-orchid);
+  outline: 3px solid var(--color-teal);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -89,7 +89,53 @@ body {
   color: var(--color-cream);
 }
 
+/* Acabados animados (se activan con la clase .fx-anim del SVG) */
+.fx-anim .fx-sweep {
+  animation: fx-sweep 4.5s ease-in-out infinite;
+}
+@keyframes fx-sweep {
+  0% { transform: translateX(-340px); }
+  55%, 100% { transform: translateX(340px); }
+}
+.fx-anim .fx-twinkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fx-twinkle 2.6s ease-in-out infinite;
+}
+@keyframes fx-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.55); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.fx-anim .fx-glint {
+  animation: fx-glint 3s ease-in-out infinite;
+}
+@keyframes fx-glint {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.95; }
+}
+.fx-anim .fx-drift {
+  animation: fx-drift 6s ease-in-out infinite alternate;
+}
+@keyframes fx-drift {
+  from { transform: translateX(-50px); }
+  to { transform: translateX(50px); }
+}
+
+/* Aparición suave al hacer scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition-delay: var(--d, 0s);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
+  html { scroll-behavior: auto; }
   .btn:hover { transform: none; }
+  .fx-anim * { animation: none !important; }
+  .reveal { opacity: 1; transform: none; transition: none; }
 }

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { eur, productCover, type Product } from "@/lib/data";
+import { Photo } from "./Photo";
 
 export function ProductCard({ product }: { product: Product }) {
   const cover = productCover(product);
@@ -8,8 +8,9 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Link href={`/producto/${product.slug}`} className="group block">
       <div className="relative aspect-square overflow-hidden rounded-2xl bg-white">
-        <Image
+        <Photo
           src={cover.src}
+          size={640}
           alt={product.name}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"

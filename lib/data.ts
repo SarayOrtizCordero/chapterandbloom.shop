@@ -6,6 +6,8 @@ export type Finish = {
   id: FinishId;
   name: string;
   desc: string;
+  /** Texto corto para las listas */
+  short: string;
   holo: boolean;
   /** Muestra real del acabado (recortada de la infografía); se usa cuando no hay imagen de producto. */
   thumb: string;
@@ -14,12 +16,12 @@ export type Finish = {
 export const HOLO_EXTRA = 1;
 
 export const finishes: Finish[] = [
-  { id: "matte", name: "Mate", desc: "Suave, liso y sin reflejos.", holo: false, thumb: "/brand/finish-matte.jpg" },
-  { id: "glossy", name: "Brillante", desc: "Colores vibrantes con un brillo precioso.", holo: false, thumb: "/brand/finish-glossy.jpg" },
-  { id: "stars", name: "Estrellas", desc: "Holográfico premium con estrellitas.", holo: true, thumb: "/brand/finish-stars.jpg" },
-  { id: "rainbow", name: "Arcoíris", desc: "Holográfico premium con destellos arcoíris.", holo: true, thumb: "/brand/finish-rainbow.jpg" },
-  { id: "glass", name: "Vidrio roto", desc: "Holográfico premium con efecto cristal.", holo: true, thumb: "/brand/finish-glass.jpg" },
-  { id: "dots", name: "Puntitos", desc: "Holográfico premium con puntitos brillantes.", holo: true, thumb: "/brand/finish-dots.jpg" },
+  { id: "matte", name: "Mate", desc: "Suave, liso y sin reflejos.", short: "Suave y sin reflejos", holo: false, thumb: "/brand/finish-matte.jpg" },
+  { id: "glossy", name: "Brillante", desc: "Colores vibrantes con un brillo precioso.", short: "Brillo vibrante", holo: false, thumb: "/brand/finish-glossy.jpg" },
+  { id: "stars", name: "Estrellas", desc: "Holográfico premium con estrellitas.", short: "Con estrellitas", holo: true, thumb: "/brand/finish-stars.jpg" },
+  { id: "rainbow", name: "Arcoíris", desc: "Holográfico premium con destellos arcoíris.", short: "Destellos arcoíris", holo: true, thumb: "/brand/finish-rainbow.jpg" },
+  { id: "glass", name: "Vidrio roto", desc: "Holográfico premium con efecto cristal.", short: "Efecto cristal", holo: true, thumb: "/brand/finish-glass.jpg" },
+  { id: "dots", name: "Puntitos", desc: "Holográfico premium con puntitos brillantes.", short: "Puntitos brillantes", holo: true, thumb: "/brand/finish-dots.jpg" },
 ];
 
 export const finishById = (id: FinishId) => finishes.find((f) => f.id === id)!;

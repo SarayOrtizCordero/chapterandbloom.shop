@@ -61,7 +61,7 @@ export function Header() {
                   href={n.href}
                   className={
                     n.pill
-                      ? "ml-2 rounded-full bg-ink px-4 py-2 text-sm font-bold text-cream transition hover:bg-orchid"
+                      ? "ml-2 rounded-full bg-ink px-4 py-2 text-sm font-bold text-cream transition hover:bg-mint hover:text-ink"
                       : "rounded-full px-3 py-2 text-sm font-bold transition hover:bg-cream/60"
                   }
                 >
@@ -96,7 +96,7 @@ export function Header() {
                 <path d="M9 8V6a3 3 0 0 1 6 0v2" />
               </svg>
               {count > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-orchid px-1 text-[11px] font-bold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-mint px-1 text-[11px] font-bold text-ink">
                   {count}
                 </span>
               )}

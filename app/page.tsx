@@ -1,12 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Carousel } from "@/components/Carousel";
 import { CategoryArt } from "@/components/CategoryArt";
 import { Hero } from "@/components/Hero";
 import { ProductCard } from "@/components/ProductCard";
-import { CropBox } from "@/components/Pickers";
-import { FinishFx } from "@/components/finish";
-import { categories, eur, finishes, HOLO_EXTRA, productBySlug, reviews } from "@/lib/data";
+import { FinishShowcase } from "@/components/FinishShowcase";
+import { Photo } from "@/components/Photo";
+import { categories, eur, HOLO_EXTRA, productBySlug, reviews } from "@/lib/data";
 
 const featuredSlugs = [
   "lazos-coquette-skin",
@@ -26,7 +25,6 @@ const steps = [
 
 export default function Home() {
   const featured = featuredSlugs.map((s) => productBySlug(s)!);
-  const showcase = { src: "/brand/skins/Lazos-Rosa-Coquette.jpeg", kind: "spread" } as const;
 
   return (
     <>
@@ -45,7 +43,7 @@ export default function Home() {
             <Link key={c.id} href={`/tienda?cat=${c.id}`} className="group w-56 shrink-0 snap-start sm:w-64">
               <div className="relative aspect-square overflow-hidden rounded-2xl bg-white">
                 {c.cover ? (
-                  <Image src={c.cover} alt="" fill sizes="256px" className="object-cover transition duration-500 group-hover:scale-105" />
+                  <Photo src={c.cover} size={640} alt="" fill sizes="256px" className="object-cover transition duration-500 group-hover:scale-105" />
                 ) : (
                   <CategoryArt id={c.id} className="absolute inset-0 bg-lavender-soft" />
                 )}
@@ -85,17 +83,7 @@ export default function Home() {
             Disponibles en todos los diseños de Chapter & Bloom. Mate y brillante van incluidos; los holográficos suman solo {eur(HOLO_EXTRA)}.
           </p>
         </div>
-        <div className="mt-10 grid grid-cols-3 gap-4 md:grid-cols-6">
-          {finishes.map((f) => (
-            <div key={f.id} className="text-center">
-              <CropBox img={showcase} className="rounded-2xl">
-                <FinishFx finish={f.id} />
-              </CropBox>
-              <p className="mt-2 font-semibold">{f.name}</p>
-              <p className="text-xs text-ink-soft">{f.holo ? `+${eur(HOLO_EXTRA)}` : "Incluido"}</p>
-            </div>
-          ))}
-        </div>
+        <FinishShowcase />
       </section>
 
       {/* Personalizada */}
@@ -131,7 +119,7 @@ export default function Home() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {reviews.map((r) => (
             <figure key={r.name} className="rounded-2xl bg-white p-6">
-              <div className="text-orchid" aria-label={`${r.stars} de 5 estrellas`}>
+              <div className="text-teal" aria-label={`${r.stars} de 5 estrellas`}>
                 {"★".repeat(r.stars)}
               </div>
               <blockquote className="mt-3 text-sm leading-relaxed">“{r.text}”</blockquote>

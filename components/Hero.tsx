@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Photo } from "./Photo";
 
 const slides = [
   {
@@ -11,7 +11,6 @@ const slides = [
     text: "Diseños originales para Kindle, Kobo, Onyx Boox, Xteink y Bigme. Elige tu modelo y tu acabado favorito.",
     cta: { label: "Ver skins", href: "/tienda?cat=skins" },
     cta2: { label: "Ver inserts", href: "/tienda?cat=inserts" },
-    bg: "bg-lavender-soft",
     image: "/brand/skins/Lazos-Rosa-Coquette.jpeg",
   },
   {
@@ -20,17 +19,7 @@ const slides = [
     text: "Marcapáginas magnéticos desde 3,50 € y packs de 4 hojas de pegatinas por 5 €.",
     cta: { label: "Ver marcapáginas", href: "/tienda?cat=marcapaginas-magneticos" },
     cta2: { label: "Ver pegatinas", href: "/tienda?cat=pegatinas" },
-    bg: "bg-rose/50",
     image: "/brand/marcapaginas-magneticos/principe-cruel/los-habitantes-del-aire.jpeg",
-  },
-  {
-    kicker: "Hecho a tu medida",
-    title: "Diseña tu propia skin personalizada",
-    text: "Sube tu imagen, elige modelo y acabado, y cuéntanos cómo lo imaginas. Desde 8 €.",
-    cta: { label: "Crear la mía", href: "/personalizadas" },
-    cta2: { label: "Ver acabados", href: "/#acabados" },
-    bg: "bg-mint-soft",
-    image: "/brand/skins/Enchanted-Garden.jpeg",
   },
 ] as const;
 
@@ -57,7 +46,7 @@ export function Hero() {
           <div
             key={s.title}
             aria-hidden={k !== i}
-            className={`${s.bg} transition-opacity duration-700 ${k === i ? "relative opacity-100" : "pointer-events-none absolute inset-0 opacity-0"}`}
+            className={`bg-lavender-soft transition-opacity duration-700 ${k === i ? "relative opacity-100" : "pointer-events-none absolute inset-0 opacity-0"}`}
           >
             <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 md:py-16">
               <div className="space-y-5">
@@ -74,7 +63,7 @@ export function Hero() {
                 </div>
               </div>
               <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-3xl bg-white md:max-w-lg">
-                <Image src={s.image} alt="" fill priority={k === 0} sizes="(min-width: 768px) 512px, 90vw" className="object-cover" />
+                <Photo src={s.image} size={1100} alt="" fill priority sizes="(min-width: 768px) 512px, 90vw" className="object-cover" />
               </div>
             </div>
           </div>

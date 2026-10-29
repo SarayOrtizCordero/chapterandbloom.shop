@@ -111,7 +111,7 @@ export function CustomForm() {
           }}
         />
 
-        <FinishPicker value={finish} onChange={setFinish} image={files[0] ? { src: files[0].url, kind: "plain" } : null} />
+        <FinishPicker value={finish} onChange={setFinish} />
 
         <fieldset>
           <legend className="mb-2 font-bold">Tu diseño (máx. 2 imágenes)</legend>
@@ -127,7 +127,7 @@ export function CustomForm() {
               addFiles(e.dataTransfer.files);
             }}
             className={`rounded-2xl border-2 border-dashed p-6 text-center transition ${
-              fileError ? "border-rose-deep bg-rose/30" : drag ? "border-orchid bg-lavender-soft" : "border-ink/30 bg-white"
+              fileError ? "border-rose-deep bg-rose/30" : drag ? "border-ink bg-mint-soft" : "border-ink/30 bg-white"
             }`}
           >
             <input type="file" accept="image/*" multiple className="sr-only" id="files" onChange={(e) => addFiles(e.target.files)} />
@@ -186,7 +186,7 @@ export function CustomForm() {
         <button type="button" onClick={submit} className="btn btn-primary w-full !py-3.5 text-base">
           Añadir al carrito · {eur(price)}
         </button>
-        {done && <p className="text-center text-sm font-bold text-orchid">¡Añadida al carrito! 🤍 Puedes crear otra si quieres.</p>}
+        {done && <p className="text-center text-sm font-bold">¡Añadida al carrito! 🤍 Puedes crear otra si quieres.</p>}
         <p className="text-xs text-ink-soft">
           Skin personalizada {eur(PRICES.customSkin)} · insert personalizado {eur(PRICES.customInsert)} · acabados holográficos +{eur(HOLO_EXTRA)}.
         </p>

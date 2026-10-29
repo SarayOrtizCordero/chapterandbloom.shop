@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useCart } from "@/lib/cart";
-import { categoryById, eur, kindLabel, unitPrice, type FinishId, type Img, type Product } from "@/lib/data";
+import { categoryById, eur, finishById, kindLabel, unitPrice, type FinishId, type Img, type Product } from "@/lib/data";
+import { optimized } from "@/lib/img";
 import { Gallery } from "./Gallery";
 import { FinishPicker, ModelPicker } from "./Pickers";
 
@@ -33,6 +34,15 @@ export function ProductView({ product }: { product: Product }) {
     [images, product.hasFinish],
   );
 
+  // Precarga las imágenes de todos los colores/versiones para que el cambio sea instantáneo
+  useEffect(() => {
+    const srcs = [...product.images, ...(product.variants?.options.flatMap((o) => o.images) ?? [])].map((i) => optimized(i.src, 1100));
+    new Set(srcs).forEach((s) => {
+      const im = new Image();
+      im.src = s;
+    });
+  }, [product]);
+
   const price = unitPrice(product, product.hasFinish ? finish : undefined);
 
   const submit = () => {
@@ -61,14 +71,14 @@ export function ProductView({ product }: { product: Product }) {
 
       <div className="space-y-6">
         <div>
-          <Link href={`/tienda?cat=${product.category}`} className="text-sm font-semibold text-orchid hover:underline">
+          <Link href={`/tienda?cat=${product.category}`} className="text-sm font-semibold underline decoration-mint decoration-2 underline-offset-4">
             ← {category?.name}
           </Link>
           <p className="mt-4 text-xs font-bold uppercase tracking-widest text-ink-soft">{kindLabel[product.kind]}</p>
           <h1 className="font-display mt-1 text-3xl font-black leading-tight sm:text-4xl">{product.name}</h1>
           <p className="mt-3 text-2xl font-bold">
             {eur(price)}
-            {product.hasFinish && finish !== "matte" && finish !== "glossy" && <span className="ml-2 text-sm font-semibold text-orchid">incl. acabado holográfico</span>}
+            {product.hasFinish && finishById(finish).holo && <span className="ml-2 rounded-full bg-mint px-2.5 py-0.5 align-middle text-xs font-bold">incl. acabado holográfico</span>}
           </p>
           <p className="mt-3 max-w-prose text-ink-soft">{product.description}</p>
         </div>
@@ -122,7 +132,7 @@ export function ProductView({ product }: { product: Product }) {
           />
         )}
 
-        {product.hasFinish && <FinishPicker value={finish} onChange={setFinish} image={fxImage} />}
+        {product.hasFinish && <FinishPicker value={finish} onChange={setFinish} />}
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <div className="flex items-center rounded-full border border-ink/25 bg-white">

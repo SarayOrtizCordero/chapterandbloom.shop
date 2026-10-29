@@ -20,3 +20,6 @@ npm-debug.log*
 # infografías originales de la clienta (no las usa la web)
 public/brand/finishes.jpg
 public/brand/models.jpg
+
+# lo regenera `next dev` automáticamente
+AGENTS.md

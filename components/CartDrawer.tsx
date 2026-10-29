@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useCart } from "@/lib/cart";
 import { eur, finishById } from "@/lib/data";
-import { Art } from "./Art";
+import { CartThumb } from "./CartThumb";
 
 export function CartDrawer() {
   const { items, open, setOpen, subtotal, setQty, remove } = useCart();
@@ -53,13 +53,12 @@ export function CartDrawer() {
             <ul className="flex-1 space-y-4 overflow-y-auto px-5 py-4">
               {items.map((i) => (
                 <li key={i.id} className="flex gap-3 rounded-2xl bg-white/70 p-3">
-                  <div className="w-16 shrink-0">
-                    <Art designId={i.designId} finish={i.finish} variant={i.kind} image={i.custom?.preview} className="w-full drop-shadow" />
-                  </div>
+                  <CartThumb item={i} className="w-16 shrink-0 self-start" />
                   <div className="min-w-0 flex-1">
                     <p className="font-bold leading-tight">{i.name}</p>
-                    <p className="text-xs text-ink-soft">{i.model}</p>
-                    <p className="text-xs text-ink-soft">Acabado: {finishById(i.finish).name}</p>
+                    {i.variant && <p className="text-xs text-ink-soft">{i.variant}</p>}
+                    {i.model && <p className="text-xs text-ink-soft">{i.model}</p>}
+                    {i.finish && <p className="text-xs text-ink-soft">Acabado: {finishById(i.finish).name}</p>}
                     {i.custom && (
                       <p className="truncate text-xs text-ink-soft">
                         {i.custom.files.length} imagen(es){i.custom.note ? " · con mensaje" : ""}

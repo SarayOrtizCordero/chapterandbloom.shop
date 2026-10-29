@@ -15,15 +15,16 @@ const nav: NavItem[] = [
     href: "/tienda?cat=marcapaginas-magneticos",
     children: [
       { label: "Magnéticos", href: "/tienda?cat=marcapaginas-magneticos" },
-      { label: "Tradicionales", href: "/tienda?cat=marcapaginas" },
+      { label: "Tradicionales (pronto)", href: "/tienda?cat=marcapaginas" },
     ],
   },
+  { label: "Pegatinas", href: "/tienda?cat=pegatinas" },
   {
     label: "Accesorios",
     href: "/tienda?cat=pop-sockets",
     children: [
-      { label: "Pop sockets", href: "/tienda?cat=pop-sockets" },
-      { label: "Vasos de vidrio", href: "/tienda?cat=vasos" },
+      { label: "Pop sockets (pronto)", href: "/tienda?cat=pop-sockets" },
+      { label: "Vasos de vidrio (pronto)", href: "/tienda?cat=vasos" },
     ],
   },
   { label: "Skins personalizadas", href: "/personalizadas", pill: true },
@@ -34,11 +35,8 @@ export function Header() {
   const [menu, setMenu] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40">
-      <div className="bg-ink px-4 py-2 text-center text-xs font-medium tracking-wide text-cream sm:text-sm">
-        Diseños originales para tu e-reader 🤍 Skins desde 6 € · Acabados holográficos por solo +1 €
-      </div>
-      <div className="border-b border-ink/10 bg-lavender">
+    <header className="sticky top-0 z-40 bg-lavender">
+      <div>
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <button
             className="-ml-2 rounded-full p-2 lg:hidden"
@@ -53,7 +51,7 @@ export function Header() {
 
           <Link href="/" aria-label="Chapter & Bloom, inicio" className="shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/logo.png" alt="Chapter & Bloom" className="h-16 w-auto sm:h-[84px]" />
+            <img src="/brand/logo.png" alt="Chapter & Bloom" className="h-16 w-auto sm:h-[72px]" />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Principal">
@@ -107,7 +105,7 @@ export function Header() {
         </div>
 
         {menu && (
-          <nav className="border-t border-ink/10 bg-cream px-4 py-3 lg:hidden" aria-label="Móvil">
+          <nav className="bg-cream px-4 py-3 lg:hidden" aria-label="Móvil">
             {nav.map((n) => (
               <div key={n.label}>
                 <Link href={n.children ? n.children[0].href : n.href} onClick={() => setMenu(false)} className="block rounded-xl px-3 py-3 font-bold hover:bg-lavender-soft">

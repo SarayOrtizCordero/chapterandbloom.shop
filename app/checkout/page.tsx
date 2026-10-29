@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/lib/cart";
 import { eur, finishById } from "@/lib/data";
-import { Art } from "@/components/Art";
+import { CartThumb } from "@/components/CartThumb";
 
 const field = "w-full rounded-2xl border-2 border-ink/20 bg-white/80 px-4 py-3";
 
@@ -87,15 +87,13 @@ export default function Checkout() {
           <ul className="space-y-3">
             {items.map((i) => (
               <li key={i.id} className="flex gap-3">
-                <div className="relative w-12 shrink-0">
-                  <Art designId={i.designId} finish={i.finish} variant={i.kind} image={i.custom?.preview} className="w-full" />
+                <div className="relative w-14 shrink-0 self-start">
+                  <CartThumb item={i} />
                   <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-ink text-[11px] font-bold text-cream">{i.qty}</span>
                 </div>
                 <div className="min-w-0 flex-1 text-sm">
                   <p className="font-bold leading-tight">{i.name}</p>
-                  <p className="text-xs text-ink-soft">
-                    {i.model} · {finishById(i.finish).name}
-                  </p>
+                  <p className="text-xs text-ink-soft">{[i.variant, i.model, i.finish && finishById(i.finish).name].filter(Boolean).join(" · ")}</p>
                 </div>
                 <p className="text-sm font-bold">{eur(i.unitPrice * i.qty)}</p>
               </li>

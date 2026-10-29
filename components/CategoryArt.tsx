@@ -1,23 +1,7 @@
 import type { CategoryId } from "@/lib/data";
-import { Art } from "./Art";
 
-/** Ilustraciones sencillas para las categorías (placeholder hasta tener fotos reales). */
+/** Ilustraciones sencillas para las categorías "Próximamente" (hasta tener fotos reales). */
 export function CategoryArt({ id, className = "" }: { id: CategoryId; className?: string }) {
-  if (id === "skins") {
-    return (
-      <div className={`relative flex items-center justify-center ${className}`}>
-        <Art designId="jardin-de-medianoche" finish="glossy" className="h-[88%] -rotate-6 drop-shadow-xl" />
-        <Art designId="cerezos-y-libros" finish="rainbow" className="absolute h-[70%] translate-x-14 rotate-6 drop-shadow-xl" />
-      </div>
-    );
-  }
-  if (id === "inserts") {
-    return (
-      <div className={`relative flex items-center justify-center ${className}`}>
-        <Art designId="lavanda" variant="insert" finish="matte" className="h-[84%] rotate-3 drop-shadow-xl" />
-      </div>
-    );
-  }
   const common = { viewBox: "0 0 200 200", className: `h-[80%] drop-shadow-xl` };
   if (id === "marcapaginas-magneticos" || id === "marcapaginas") {
     const magnetic = id === "marcapaginas-magneticos";

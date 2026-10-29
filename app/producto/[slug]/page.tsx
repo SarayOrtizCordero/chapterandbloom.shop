@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Configurator } from "@/components/Configurator";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductView } from "@/components/ProductView";
 import { productBySlug, products } from "@/lib/data";
 
 export function generateStaticParams() {
@@ -19,35 +19,39 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const product = productBySlug(slug);
   if (!product) notFound();
 
-  const related = products.filter((p) => p.kind === product.kind && p.slug !== product.slug).slice(0, 4);
+  const related = products.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 4);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-      <Configurator product={product} />
+      <ProductView product={product} />
 
-      <section className="mt-16 grid gap-4 md:grid-cols-2">
-        <details className="rounded-3xl bg-white/60 px-6 py-4" open>
-          <summary className="cursor-pointer font-display text-xl font-bold">Envíos y devoluciones</summary>
+      <section className="mt-16 grid gap-3 md:grid-cols-2">
+        <details className="rounded-2xl bg-white px-6 py-4">
+          <summary className="cursor-pointer font-bold">Envíos y devoluciones</summary>
           <p className="mt-3 text-sm text-ink-soft">
             Texto de ejemplo para la demo. Aquí irán los plazos de preparación, los costes y zonas de envío y la política de devoluciones de Chapter & Bloom.
           </p>
         </details>
-        <details className="rounded-3xl bg-white/60 px-6 py-4">
-          <summary className="cursor-pointer font-display text-xl font-bold">Cómo colocar tu skin</summary>
+        <details className="rounded-2xl bg-white px-6 py-4">
+          <summary className="cursor-pointer font-bold">{product.needsDevice ? "Cómo colocar tu skin" : "Cuidados"}</summary>
           <p className="mt-3 text-sm text-ink-soft">
-            Limpia la superficie, retira el papel protector poco a poco y alinea con los bordes. Si te equivocas, puedes recolocarla con calma. (Texto de ejemplo)
+            {product.needsDevice
+              ? "Limpia la superficie, retira el papel protector poco a poco y alinea con los bordes. Si te equivocas, puedes recolocarla con calma. (Texto de ejemplo)"
+              : "Texto de ejemplo para la demo."}
           </p>
         </details>
       </section>
 
-      <section className="mt-20">
-        <h2 className="font-display text-3xl font-black">También te puede gustar</h2>
-        <div className="mt-6 grid grid-cols-2 gap-5 md:grid-cols-4">
-          {related.map((p) => (
-            <ProductCard key={p.slug} product={p} />
-          ))}
-        </div>
-      </section>
+      {related.length > 0 && (
+        <section className="mt-20">
+          <h2 className="font-display text-2xl font-black sm:text-3xl">También te puede gustar</h2>
+          <div className="mt-6 grid grid-cols-2 gap-5 md:grid-cols-4">
+            {related.map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

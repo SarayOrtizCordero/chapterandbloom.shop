@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Art } from "./Art";
 
 const slides = [
   {
@@ -11,11 +11,17 @@ const slides = [
     text: "Diseños originales para Kindle, Kobo, Onyx Boox, Xteink y Bigme. Elige tu modelo y tu acabado favorito.",
     cta: { label: "Ver skins", href: "/tienda?cat=skins" },
     cta2: { label: "Ver inserts", href: "/tienda?cat=inserts" },
-    bg: "from-lavender to-lavender-soft",
-    art: [
-      { id: "jardin-de-medianoche", finish: "glossy", cls: "h-[78%] -rotate-6 -translate-x-8" },
-      { id: "cerezos-y-libros", finish: "rainbow", cls: "h-[70%] rotate-6 translate-x-10 translate-y-6" },
-    ],
+    bg: "bg-lavender-soft",
+    image: "/brand/skins/Lazos-Rosa-Coquette.jpeg",
+  },
+  {
+    kicker: "Marcapáginas y pegatinas",
+    title: "Tus personajes favoritos, en tu libro",
+    text: "Marcapáginas magnéticos desde 3,50 € y packs de 4 hojas de pegatinas por 5 €.",
+    cta: { label: "Ver marcapáginas", href: "/tienda?cat=marcapaginas-magneticos" },
+    cta2: { label: "Ver pegatinas", href: "/tienda?cat=pegatinas" },
+    bg: "bg-rose/50",
+    image: "/brand/marcapaginas-magneticos/principe-cruel/los-habitantes-del-aire.jpeg",
   },
   {
     kicker: "Hecho a tu medida",
@@ -23,11 +29,8 @@ const slides = [
     text: "Sube tu imagen, elige modelo y acabado, y cuéntanos cómo lo imaginas. Desde 8 €.",
     cta: { label: "Crear la mía", href: "/personalizadas" },
     cta2: { label: "Ver acabados", href: "/#acabados" },
-    bg: "from-mint to-mint-soft",
-    art: [
-      { id: "biblioteca-celestial", finish: "stars", cls: "h-[78%] rotate-3 -translate-x-6" },
-      { id: "lavanda", finish: "glass", cls: "h-[66%] -rotate-6 translate-x-12 translate-y-8" },
-    ],
+    bg: "bg-mint-soft",
+    image: "/brand/skins/Enchanted-Garden.jpeg",
   },
 ] as const;
 
@@ -37,7 +40,7 @@ export function Hero() {
 
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(() => setI((n) => (n + 1) % slides.length), 6500);
+    const t = setInterval(() => setI((n) => (n + 1) % slides.length), 7000);
     return () => clearInterval(t);
   }, [paused]);
 
@@ -54,27 +57,24 @@ export function Hero() {
           <div
             key={s.title}
             aria-hidden={k !== i}
-            className={`bg-gradient-to-br ${s.bg} transition-opacity duration-700 ${k === i ? "relative opacity-100" : "pointer-events-none absolute inset-0 opacity-0"}`}
+            className={`${s.bg} transition-opacity duration-700 ${k === i ? "relative opacity-100" : "pointer-events-none absolute inset-0 opacity-0"}`}
           >
-            <div className="sparkle-bg absolute inset-0" />
-            <div className="relative mx-auto grid min-h-[34rem] max-w-7xl items-center gap-6 px-4 py-12 sm:px-6 md:grid-cols-2">
+            <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 md:py-16">
               <div className="space-y-5">
-                <span className="inline-block rounded-full bg-cream/80 px-4 py-1 text-xs font-bold uppercase tracking-wider">{s.kicker}</span>
-                <h1 className="font-display text-5xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">{s.title}</h1>
-                <p className="max-w-lg text-lg text-ink-soft">{s.text}</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-ink-soft">{s.kicker}</p>
+                <h1 className="font-display text-4xl font-black leading-[1.05] sm:text-5xl lg:text-6xl">{s.title}</h1>
+                <p className="max-w-md text-lg text-ink-soft">{s.text}</p>
                 <div className="flex flex-wrap gap-3 pt-2">
-                  <Link href={s.cta.href} className="btn btn-primary">
+                  <Link href={s.cta.href} className="btn btn-primary" tabIndex={k === i ? 0 : -1}>
                     {s.cta.label}
                   </Link>
-                  <Link href={s.cta2.href} className="btn btn-ghost">
+                  <Link href={s.cta2.href} className="btn btn-ghost" tabIndex={k === i ? 0 : -1}>
                     {s.cta2.label}
                   </Link>
                 </div>
               </div>
-              <div className="relative flex h-80 items-center justify-center md:h-[28rem]">
-                {s.art.map((a) => (
-                  <Art key={a.id} designId={a.id} finish={a.finish} className={`absolute drop-shadow-2xl ${a.cls}`} />
-                ))}
+              <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-3xl bg-white md:max-w-lg">
+                <Image src={s.image} alt="" fill priority={k === 0} sizes="(min-width: 768px) 512px, 90vw" className="object-cover" />
               </div>
             </div>
           </div>
@@ -88,7 +88,7 @@ export function Hero() {
             aria-label={`Ir a la diapositiva ${k + 1}`}
             aria-current={k === i}
             onClick={() => setI(k)}
-            className={`h-2.5 rounded-full transition-all ${k === i ? "w-8 bg-ink" : "w-2.5 bg-ink/30"}`}
+            className={`h-2 rounded-full transition-all ${k === i ? "w-7 bg-ink" : "w-2 bg-ink/30"}`}
           />
         ))}
       </div>

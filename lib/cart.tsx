@@ -1,18 +1,20 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import type { FinishId } from "./data";
+import type { FinishId, Img } from "./data";
 
 export type CartItem = {
   id: string;
   name: string;
-  kind: "skin" | "insert";
-  designId: string;
-  model: string;
-  finish: FinishId;
+  /** Miniatura; si falta (p. ej. imagen personalizada tras recargar) se usa una ilustración */
+  image?: Img | null;
+  model?: string;
+  finish?: FinishId;
+  /** Color / versión elegida (p. ej. "Rosa") */
+  variant?: string;
   unitPrice: number;
   qty: number;
-  custom?: { files: string[]; note: string; preview?: string | null };
+  custom?: { files: string[]; note: string; kind: "skin" | "insert" };
 };
 
 type CartCtx = {
@@ -28,7 +30,7 @@ type CartCtx = {
 };
 
 const Ctx = createContext<CartCtx | null>(null);
-const KEY = "cb-demo-cart-v1";
+const KEY = "cb-demo-cart-v2";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -47,7 +49,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (!ready) return;
     try {
       // La vista previa de imágenes subidas no se guarda (solo el nombre de archivo).
-      const slim = items.map((i) => (i.custom ? { ...i, custom: { ...i.custom, preview: null } } : i));
+      const slim = items.map((i) => (i.custom ? { ...i, image: null } : i));
       localStorage.setItem(KEY, JSON.stringify(slim));
     } catch {}
   }, [items, ready]);
@@ -57,7 +59,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) => {
       if (!item.custom) {
         const same = prev.find(
-          (p) => !p.custom && p.name === item.name && p.model === item.model && p.finish === item.finish,
+          (p) => !p.custom && p.name === item.name && p.model === item.model && p.finish === item.finish && p.variant === item.variant,
         );
         if (same) return prev.map((p) => (p === same ? { ...p, qty: p.qty + qty } : p));
       }

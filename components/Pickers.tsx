@@ -139,7 +139,7 @@ export function ModelPicker({ model, onModel, error }: { model: string; onModel:
             }
           }}
           className={`flex w-full items-center gap-3 rounded-2xl border-2 bg-white p-3 text-left transition ${
-            open ? "border-ink ring-4 ring-mint/70" : error ? "border-rose-deep ring-4 ring-rose/60" : "border-ink/15 hover:border-ink/40"
+            open ? "border-ink ring-4 ring-mint/70" : error ? "border-rose-deep ring-4 ring-rose/60" : "border-ink/60 hover:border-ink"
           }`}
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mint" aria-hidden>
@@ -255,7 +255,7 @@ function FinishOption({ id, active, onSelect }: { id: FinishId; active: boolean;
       aria-checked={active}
       onClick={() => onSelect(id)}
       className={`flex items-center gap-3 rounded-2xl border-2 bg-white p-2.5 text-left transition ${
-        active ? "border-ink ring-4 ring-mint/70" : "border-ink/10 hover:border-ink/40"
+        active ? "border-ink ring-4 ring-mint/70" : "border-ink/60 hover:border-ink"
       }`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -16,7 +16,7 @@ export function NotifyForm() {
       <label htmlFor="notify" className="sr-only">
         Correo electrónico
       </label>
-      <input id="notify" type="email" required placeholder="tu@correo.com" className="min-w-0 flex-1 rounded-full border-2 border-ink/20 bg-white px-5 py-3" />
+      <input id="notify" type="email" required placeholder="tu@correo.com" className="min-w-0 flex-1 rounded-full border-2 border-ink/60 bg-white px-5 py-3" />
       <button className="btn btn-primary !px-5">Avísame</button>
     </form>
   );

@@ -89,7 +89,7 @@ export function CustomForm() {
                 role="radio"
                 aria-checked={kind === k}
                 onClick={() => setKind(k)}
-                className={`rounded-xl border-2 p-4 text-left transition ${kind === k ? "border-ink bg-white shadow-soft" : "border-ink/15 bg-white hover:border-ink/50"}`}
+                className={`rounded-xl border-2 p-4 text-left transition ${kind === k ? "border-ink bg-white shadow-soft" : "border-ink/60 bg-white hover:border-ink"}`}
               >
                 <span className="block text-sm font-semibold">{label}</span>
                 <span className="text-xl font-bold">{eur(p)}</span>
@@ -123,7 +123,7 @@ export function CustomForm() {
               addFiles(e.dataTransfer.files);
             }}
             className={`rounded-2xl border-2 border-dashed p-6 text-center transition ${
-              fileError ? "border-rose-deep bg-rose/30" : drag ? "border-ink bg-mint-soft" : "border-ink/30 bg-white"
+              fileError ? "border-rose-deep bg-rose/30" : drag ? "border-ink bg-mint-soft" : "border-ink/60 bg-white"
             }`}
           >
             <input type="file" accept="image/*" multiple className="sr-only" id="files" onChange={(e) => addFiles(e.target.files)} />
@@ -175,7 +175,7 @@ export function CustomForm() {
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Cuéntanos cómo lo quieres: colocación de las imágenes, textos, colores, dudas…"
-            className="w-full rounded-xl border border-ink/25 bg-white px-4 py-3"
+            className="w-full rounded-xl border border-ink/60 bg-white px-4 py-3"
           />
         </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useCart } from "@/lib/cart";
 import { eur, finishById } from "@/lib/data";
 import { CartThumb } from "./CartThumb";
@@ -9,31 +9,54 @@ import { CartThumb } from "./CartThumb";
 export function CartDrawer() {
   const { items, open, setOpen, subtotal, setQty, remove } = useCart();
 
+  const panel = useRef<HTMLElement>(null);
+  const closeBtn = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const opener = document.activeElement as HTMLElement | null;
+    closeBtn.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") return setOpen(false);
+      if (e.key !== "Tab") return;
+      // Atrapa el foco dentro del carrito mientras está abierto
+      const f = panel.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])");
+      if (!f?.length) return;
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      opener?.focus?.();
     };
   }, [open, setOpen]);
 
   return (
-    <div className={`fixed inset-0 z-50 ${open ? "" : "pointer-events-none"}`} aria-hidden={!open}>
+    <div className={`fixed inset-0 z-50 ${open ? "" : "pointer-events-none"}`} inert={!open}>
       <div
         className={`absolute inset-0 bg-ink/50 transition-opacity ${open ? "opacity-100" : "opacity-0"}`}
         onClick={() => setOpen(false)}
       />
       <aside
+        ref={panel}
         role="dialog"
+        aria-modal="true"
         aria-label="Carrito"
         className={`absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-cream shadow-pop transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="flex items-center justify-between border-b border-ink/10 px-5 py-4">
           <h2 className="font-display text-2xl font-bold">Tu carrito</h2>
-          <button onClick={() => setOpen(false)} className="rounded-full p-2 hover:bg-lavender-soft" aria-label="Cerrar carrito">
+          <button ref={closeBtn} onClick={() => setOpen(false)} className="rounded-full p-3 hover:bg-lavender-soft" aria-label="Cerrar carrito">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M6 6l12 12M18 6L6 18" />
             </svg>
@@ -65,7 +88,7 @@ export function CartDrawer() {
                       </p>
                     )}
                     <div className="mt-2 flex items-center justify-between">
-                      <div className="flex items-center rounded-full border border-ink/20">
+                      <div className="flex items-center rounded-full border border-ink/60">
                         <button className="h-11 w-11 text-lg" aria-label="Quitar uno" onClick={() => setQty(i.id, i.qty - 1)}>
                           −
                         </button>

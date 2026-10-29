@@ -8,7 +8,7 @@
   --color-ink: #312a44;
   --color-ink-soft: #5d5473;
   --color-rose: #d7c5d2;
-  --color-rose-deep: #a9809b;
+  --color-rose-deep: #7a4a6c;
   --color-cream: #faf3f1;
   --color-teal: #2f8f9d;
 
@@ -43,9 +43,13 @@ body {
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-teal);
+  outline: 3px solid var(--color-ink);
   outline-offset: 2px;
   border-radius: 6px;
+}
+/* El pie es oscuro: el aro en tinta no se vería */
+footer :focus-visible {
+  outline-color: var(--color-mint);
 }
 
 .btn {

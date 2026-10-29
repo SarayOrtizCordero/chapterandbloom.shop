@@ -6,7 +6,7 @@ import { useCart } from "@/lib/cart";
 import { eur, finishById } from "@/lib/data";
 import { CartThumb } from "@/components/CartThumb";
 
-const field = "w-full rounded-2xl border-2 border-ink/20 bg-white/80 px-4 py-3";
+const field = "w-full rounded-2xl border-2 border-ink/60 bg-white/80 px-4 py-3";
 
 function Field({ label, className = "", optional, ...input }: { label: string; optional?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (

@@ -25,21 +25,37 @@ const slides = [
 
 export function Hero() {
   const [i, setI] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [hover, setHover] = useState(false);
+  const [focus, setFocus] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+  const [reduce, setReduce] = useState(true);
+
+  // Sin auto-avance si la persona prefiere menos movimiento
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduce(mq.matches);
+    const on = () => setReduce(mq.matches);
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+
+  const playing = !reduce && !userPaused && !hover && !focus;
 
   useEffect(() => {
-    if (paused) return;
+    if (!playing) return;
     const t = setInterval(() => setI((n) => (n + 1) % slides.length), 7000);
     return () => clearInterval(t);
-  }, [paused]);
+  }, [playing]);
 
   return (
     <section
       className="relative"
       aria-roledescription="carrusel"
       aria-label="Destacados"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onFocus={() => setFocus(true)}
+      onBlur={() => setFocus(false)}
     >
       <div className="relative overflow-hidden">
         {slides.map((s, k) => (
@@ -70,15 +86,22 @@ export function Hero() {
         ))}
       </div>
 
-      <div className="absolute inset-x-0 bottom-4 flex justify-center gap-2">
+      <div className="absolute inset-x-0 bottom-0 flex items-center justify-center">
+        <button
+          type="button"
+          onClick={() => setUserPaused((v) => !v)}
+          aria-label={userPaused || reduce ? "Reanudar el carrusel" : "Pausar el carrusel"}
+          aria-pressed={userPaused}
+          className="flex h-11 w-11 items-center justify-center rounded-full"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            {userPaused || reduce ? <path d="M7 4l13 8-13 8z" /> : <path d="M6 4h4v16H6zM14 4h4v16h-4z" />}
+          </svg>
+        </button>
         {slides.map((s, k) => (
-          <button
-            key={s.title}
-            aria-label={`Ir a la diapositiva ${k + 1}`}
-            aria-current={k === i}
-            onClick={() => setI(k)}
-            className={`h-2 rounded-full transition-all ${k === i ? "w-7 bg-ink" : "w-2 bg-ink/30"}`}
-          />
+          <button key={s.title} aria-label={`Ir a la diapositiva ${k + 1}`} aria-current={k === i} onClick={() => setI(k)} className="flex h-11 items-center justify-center px-1.5">
+            <span className={`block h-2 rounded-full transition-all ${k === i ? "w-7 bg-ink" : "w-2 bg-ink/30"}`} />
+          </button>
         ))}
       </div>
     </section>

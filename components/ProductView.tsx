@@ -122,7 +122,7 @@ export function ProductView({ product }: { product: Product }) {
                     role="radio"
                     aria-checked={active}
                     onClick={() => setVariantId(o.id)}
-                    className={`rounded-full border-2 px-4 py-2 text-sm font-bold transition ${active ? "border-ink bg-ink text-cream" : "border-ink/20 bg-white hover:border-ink/50"}`}
+                    className={`rounded-full border-2 px-4 py-2 text-sm font-bold transition ${active ? "border-ink bg-ink text-cream" : "border-ink/60 bg-white hover:border-ink"}`}
                   >
                     {o.label}
                   </button>
@@ -146,7 +146,7 @@ export function ProductView({ product }: { product: Product }) {
         {product.hasFinish && <FinishPicker value={finish} onChange={setFinish} />}
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
-          <div className="flex items-center rounded-full border border-ink/25 bg-white">
+          <div className="flex items-center rounded-full border border-ink/60 bg-white">
             <button type="button" className="h-12 w-12 text-xl" aria-label="Menos" onClick={() => setQty((q) => Math.max(1, q - 1))}>
               −
             </button>

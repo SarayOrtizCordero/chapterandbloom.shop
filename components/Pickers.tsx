@@ -120,7 +120,7 @@ export function ModelPicker({ model, onModel, error }: { model: string; onModel:
   return (
     <div ref={root}>
       <span id={`${listId}-label`} className="mb-2 block font-bold">
-        Dispositivo
+        Dispositivo <span className="font-normal text-ink-soft">(obligatorio)</span>
       </span>
       <div className="relative">
         <button

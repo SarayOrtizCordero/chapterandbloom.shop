@@ -60,12 +60,8 @@ export function CustomForm() {
       <div className="lg:sticky lg:top-28 lg:self-start">
         <div className="relative flex aspect-square items-center justify-center rounded-3xl bg-white">
           <Art designId="lavanda" variant={kind} finish={finish} image={files[0]?.url} className="h-[88%] drop-shadow-xl" />
-          {!files[0] && (
-            <p className="absolute inset-x-8 bottom-6 rounded-xl bg-cream/95 px-4 py-2 text-center text-sm font-semibold">
-              Aquí verás una vista previa de tu diseño
-            </p>
-          )}
         </div>
+        {!files[0] && <p className="mt-3 text-center text-sm font-semibold">Aquí verás una vista previa de tu diseño</p>}
         <p className="mt-2 text-center text-xs text-ink-soft">Vista orientativa. Revisaremos tu imagen y te escribiremos si necesitamos ajustar algo.</p>
       </div>
 

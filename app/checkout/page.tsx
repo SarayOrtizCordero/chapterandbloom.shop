@@ -8,6 +8,18 @@ import { CartThumb } from "@/components/CartThumb";
 
 const field = "w-full rounded-2xl border-2 border-ink/20 bg-white/80 px-4 py-3";
 
+function Field({ label, className = "", optional, ...input }: { label: string; optional?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <label className={`block ${className}`}>
+      <span className="mb-1 block text-sm font-semibold">
+        {label}
+        {optional && <span className="font-normal text-ink-soft"> (opcional)</span>}
+      </span>
+      <input required={!optional} className={field} {...input} />
+    </label>
+  );
+}
+
 export default function Checkout() {
   const { items, subtotal, clear } = useCart();
   const [order, setOrder] = useState<string | null>(null);
@@ -57,22 +69,21 @@ export default function Checkout() {
         <div className="space-y-8">
           <section className="space-y-3">
             <h2 className="font-display text-2xl font-bold">Contacto</h2>
-            <label className="block">
-              <span className="sr-only">Correo electrónico</span>
-              <input required type="email" placeholder="Correo electrónico" className={field} />
-            </label>
+            <Field label="Correo electrónico" type="email" name="email" autoComplete="email" />
           </section>
           <section className="space-y-3">
             <h2 className="font-display text-2xl font-bold">Envío</h2>
             <div className="grid gap-3 sm:grid-cols-2">
-              <input required placeholder="Nombre" aria-label="Nombre" className={field} />
-              <input required placeholder="Apellidos" aria-label="Apellidos" className={field} />
+              <Field label="Nombre" name="nombre" autoComplete="given-name" />
+              <Field label="Apellidos" name="apellidos" autoComplete="family-name" />
             </div>
-            <input required placeholder="Dirección" aria-label="Dirección" className={field} />
+            <Field label="Dirección" name="direccion" autoComplete="street-address" />
             <div className="grid gap-3 sm:grid-cols-3">
-              <input required placeholder="Código postal" aria-label="Código postal" className={field} />
-              <input required placeholder="Ciudad" aria-label="Ciudad" className={`${field} sm:col-span-2`} />
+              <Field label="Código postal" name="cp" autoComplete="postal-code" inputMode="numeric" />
+              <Field label="Ciudad" name="ciudad" autoComplete="address-level2" className="sm:col-span-2" />
             </div>
+            <Field label="Teléfono" name="telefono" type="tel" autoComplete="tel" optional />
+            <p className="text-xs text-ink-soft">Solo lo usamos si hay algún problema con la entrega.</p>
           </section>
           <section className="space-y-3">
             <h2 className="font-display text-2xl font-bold">Pago</h2>

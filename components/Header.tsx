@@ -7,26 +7,10 @@ import { useCart } from "@/lib/cart";
 type NavItem = { label: string; href: string; children?: { label: string; href: string }[]; pill?: boolean };
 
 const nav: NavItem[] = [
-  { label: "Inicio", href: "/" },
   { label: "Skins", href: "/tienda?cat=skins" },
   { label: "Inserts", href: "/tienda?cat=inserts" },
-  {
-    label: "Marcapáginas",
-    href: "/tienda?cat=marcapaginas-magneticos",
-    children: [
-      { label: "Magnéticos", href: "/tienda?cat=marcapaginas-magneticos" },
-      { label: "Tradicionales (pronto)", href: "/tienda?cat=marcapaginas" },
-    ],
-  },
+  { label: "Marcapáginas", href: "/tienda?cat=marcapaginas-magneticos" },
   { label: "Pegatinas", href: "/tienda?cat=pegatinas" },
-  {
-    label: "Accesorios",
-    href: "/tienda?cat=pop-sockets",
-    children: [
-      { label: "Pop sockets (pronto)", href: "/tienda?cat=pop-sockets" },
-      { label: "Vasos de vidrio (pronto)", href: "/tienda?cat=vasos" },
-    ],
-  },
   { label: "Skins personalizadas", href: "/personalizadas", pill: true },
 ];
 
@@ -84,7 +68,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-1">
-            <Link href="/tienda#buscar" className="rounded-full p-2.5 transition hover:bg-cream/60" aria-label="Buscar">
+            <Link href="/tienda?buscar=1" className="rounded-full p-2.5 transition hover:bg-cream/60" aria-label="Buscar">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <circle cx="11" cy="11" r="7" />
                 <path d="M20 20l-3.5-3.5" />

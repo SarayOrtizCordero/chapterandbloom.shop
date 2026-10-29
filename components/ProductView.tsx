@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "@/lib/cart";
 import { categoryById, eur, finishById, kindLabel, unitPrice, type FinishId, type Img, type Product } from "@/lib/data";
 import { optimized } from "@/lib/img";
@@ -22,6 +22,17 @@ export function ProductView({ product }: { product: Product }) {
   const [finish, setFinish] = useState<FinishId>("matte");
   const [qty, setQty] = useState(1);
   const [error, setError] = useState(false);
+  const buyRef = useRef<HTMLButtonElement>(null);
+  const [buyVisible, setBuyVisible] = useState(true);
+
+  // En móvil, muestra una barra de compra fija mientras el botón principal queda fuera de pantalla
+  useEffect(() => {
+    const el = buyRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setBuyVisible(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const variant = product.variants?.options.find((o) => o.id === variantId);
   const images = variant?.images ?? product.images;
@@ -146,10 +157,18 @@ export function ProductView({ product }: { product: Product }) {
               +
             </button>
           </div>
-          <button type="button" onClick={submit} className="btn btn-primary min-w-0 flex-1 !py-3.5 text-base">
+          <button ref={buyRef} type="button" onClick={submit} className="btn btn-primary min-w-0 flex-1 !py-3.5 text-base">
             Añadir al carrito · {eur(price * qty)}
           </button>
         </div>
+
+        {!buyVisible && (
+          <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-cream/95 p-3 backdrop-blur lg:hidden">
+            <button type="button" onClick={submit} className="btn btn-primary w-full !py-3.5 text-base">
+              Añadir al carrito · {eur(price * qty)}
+            </button>
+          </div>
+        )}
 
         <ul className="space-y-1.5 border-t border-ink/10 pt-5 text-sm text-ink-soft">
           {bullets[product.kind].map((b) => (

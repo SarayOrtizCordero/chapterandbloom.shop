@@ -66,18 +66,18 @@ export function CartDrawer() {
                     )}
                     <div className="mt-2 flex items-center justify-between">
                       <div className="flex items-center rounded-full border border-ink/20">
-                        <button className="h-8 w-8 text-lg" aria-label="Quitar uno" onClick={() => setQty(i.id, i.qty - 1)}>
+                        <button className="h-11 w-11 text-lg" aria-label="Quitar uno" onClick={() => setQty(i.id, i.qty - 1)}>
                           −
                         </button>
                         <span className="w-6 text-center text-sm font-bold">{i.qty}</span>
-                        <button className="h-8 w-8 text-lg" aria-label="Añadir uno" onClick={() => setQty(i.id, i.qty + 1)}>
+                        <button className="h-11 w-11 text-lg" aria-label="Añadir uno" onClick={() => setQty(i.id, i.qty + 1)}>
                           +
                         </button>
                       </div>
                       <p className="font-bold">{eur(i.unitPrice * i.qty)}</p>
                     </div>
                   </div>
-                  <button className="self-start rounded-full p-1 text-ink-soft hover:text-ink" aria-label={`Eliminar ${i.name}`} onClick={() => remove(i.id)}>
+                  <button className="-mr-1 -mt-1 self-start rounded-full p-3 text-ink-soft hover:text-ink" aria-label={`Eliminar ${i.name}`} onClick={() => remove(i.id)}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                       <path d="M6 6l12 12M18 6L6 18" />
                     </svg>

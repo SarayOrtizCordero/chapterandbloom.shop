@@ -7,8 +7,8 @@ import { categories, categoryById, products } from "@/lib/data";
 
 export const metadata: Metadata = { title: "Tienda · Chapter & Bloom" };
 
-export default async function Shop({ searchParams }: { searchParams: Promise<{ cat?: string; q?: string }> }) {
-  const { cat, q } = await searchParams;
+export default async function Shop({ searchParams }: { searchParams: Promise<{ cat?: string; q?: string; buscar?: string }> }) {
+  const { cat, q, buscar } = await searchParams;
   const category = cat ? categoryById(cat) : undefined;
   const query = (q ?? "").trim().toLowerCase();
 
@@ -45,7 +45,7 @@ export default async function Shop({ searchParams }: { searchParams: Promise<{ c
         <label htmlFor="q" className="sr-only">
           Buscar
         </label>
-        <input id="q" name="q" defaultValue={q} placeholder="Buscar…" className="min-w-0 flex-1 rounded-full border border-ink/25 bg-white px-5 py-3" />
+        <input id="q" name="q" defaultValue={q} autoFocus={buscar === "1"} placeholder="Buscar…" className="min-w-0 flex-1 rounded-full border border-ink/25 bg-white px-5 py-3" />
         <button className="btn btn-primary !px-5">Buscar</button>
       </form>
 

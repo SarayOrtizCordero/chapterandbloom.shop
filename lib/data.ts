@@ -301,7 +301,6 @@ export const products: Product[] = [
   skin("enchanted-garden-skin", "Enchanted Garden", "Rosas y vidrieras en un jardín encantado.", spread(S("Enchanted-Garden.jpeg"))),
   skin("born-to-read-skin", "Born to Read", "Lazos y detalles en azul pastel para lectoras de nacimiento.", spread(S("born-to-read.jpeg"))),
   skin("love-yourself-skin", "Love Yourself & Love Reading", "Rosa coquette con mariposa, lazos y libros.", spread(S("love-yourself-and-love-reading.jpeg"))),
-  skin("ghostly-reads-skin", "Ghostly Reads", "Fantasmitas, calabazas y lecturas de otoño.", photo(S("gr.jpeg"))),
   skin("cinnamon-cafe-skin", "Cinnamon Café", "Una cafetería otoñal con olor a canela.", spread(S("cinnamon-cafe.jpeg"))),
   skin("cozy-chapter-skin", "Cozy Chapter", "Tazas, libros y mantitas: otoño en estado puro.", spread(S("cozy-chapter.jpeg"))),
   skin("falling-leaves-skin", "Falling Leaves", "Hojas, bellotas y calabazas de otoño.", spread(S("falling-leaves.jpeg"))),
@@ -309,7 +308,10 @@ export const products: Product[] = [
   skin("pumpkin-patch-stories-skin", "Pumpkin Patch Stories", "Historias entre calabazas y cuadros naranjas.", spread(S("pumkin-patch-stories.jpeg"))),
   skin("pumpkin-bloom-skin", "Pumpkin Bloom", "Calabazas y florecitas sobre un tono melocotón.", spread(S("pumpkin-bloom.jpeg"))),
 
-  insert("ghostly-reads-insert", "Ghostly Reads", "Fantasmitas, calabazas y lecturas de otoño.", [spread(I("ghostly-reads.jpeg"))]),
+  insert("ghostly-reads-insert", "Ghostly Reads", "Fantasmitas, calabazas y lecturas de otoño.", [
+    photo(I("ghostly-reads-foto.jpeg")),
+    spread(I("ghostly-reads.jpeg")),
+  ]),
   insert("spooky-book-club-insert", "Spooky Book Club", "Fantasmas y hojas moradas para tu club de lectura más misterioso.", [
     photo(I("sbc.jpeg")),
     spread(I("spooky-book-club.jpeg")),

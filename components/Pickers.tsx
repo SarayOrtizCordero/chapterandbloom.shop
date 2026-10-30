@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { brands, eur, finishById, finishes, HOLO_EXTRA, type FinishId, type Img } from "@/lib/data";
 import { optimized } from "@/lib/img";
 
@@ -244,62 +244,89 @@ export function ModelPicker({ model, onModel, error }: { model: string; onModel:
   );
 }
 
-/* ---------- Selector de acabado ---------- */
+/* ---------- Selector de acabado: fila de miniaturas con la propia skin ---------- */
 
-function FinishOption({ id, active, onSelect }: { id: FinishId; active: boolean; onSelect: (f: FinishId) => void }) {
-  const f = finishById(id);
+const holoTexture: Partial<Record<FinishId, string>> = {
+  stars: "/finish/stars.webp",
+  rainbow: "/finish/rainbow.webp",
+  glass: "/finish/glass.webp",
+  dots: "/finish/dots.webp",
+};
+
+/** Capa del acabado que se mezcla sobre la miniatura de la skin. */
+function finishLayer(id: FinishId): CSSProperties {
+  if (id === "glossy") {
+    return {
+      background: "linear-gradient(125deg, rgba(255,255,255,0) 28%, rgba(255,255,255,0.85), rgba(255,255,255,0) 62%)",
+      mixBlendMode: "screen",
+    };
+  }
+  if (id === "matte") return { background: "rgba(255,255,255,0.1)" };
+  return {
+    backgroundImage: `url(${holoTexture[id]})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    mixBlendMode: "hard-light",
+    opacity: 0.75,
+  };
+}
+
+function Swatch({ id, image }: { id: FinishId; image?: Img | null }) {
+  let style: CSSProperties;
+  if (!image) {
+    style = { backgroundImage: `url(${finishById(id).thumb})`, backgroundSize: "cover", backgroundPosition: "center" };
+  } else if (image.kind === "plain") {
+    style = { backgroundImage: `url(${image.src})`, backgroundSize: "cover", backgroundPosition: "center" };
+  } else {
+    const c = crops[image.kind];
+    style = {
+      backgroundImage: `url(${optimized(image.src, 640)})`,
+      backgroundSize: `${100 / c.s}% auto`,
+      backgroundPosition: `${(c.x / (1 - c.s)) * 100}% ${(c.y / (1 - c.s)) * 100}%`,
+    };
+  }
   return (
-    <button
-      type="button"
-      role="radio"
-      aria-checked={active}
-      onClick={() => onSelect(id)}
-      className={`flex items-center gap-3 rounded-2xl border-2 bg-white p-2.5 text-left transition ${
-        active ? "border-ink ring-4 ring-mint/70" : "border-ink/60 hover:border-ink"
-      }`}
+    <span
+      className="relative block aspect-square w-full overflow-hidden rounded-md bg-white"
+      style={{ ...style, filter: id === "matte" ? "saturate(0.85) brightness(1.03)" : undefined }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={f.thumb} alt="" className="h-14 w-14 shrink-0 rounded-xl object-cover" />
-      <span className="min-w-0 flex-1">
-        <span className="block font-bold leading-tight">{f.name}</span>
-        <span className="block text-xs text-ink-soft">{f.short}</span>
-      </span>
-      {active ? <Check /> : f.holo ? <span className="rounded-full bg-mint px-2 py-0.5 text-[11px] font-bold">+{eur(HOLO_EXTRA)}</span> : null}
-    </button>
+      {image && <span className="absolute inset-0" style={finishLayer(id)} />}
+    </span>
   );
 }
 
-export function FinishPicker({ value, onChange }: { value: FinishId; onChange: (f: FinishId) => void }) {
+export function FinishPicker({ value, onChange, image }: { value: FinishId; onChange: (f: FinishId) => void; image?: Img | null }) {
   const current = finishById(value);
-  const included = finishes.filter((f) => !f.holo);
-  const holo = finishes.filter((f) => f.holo);
   return (
     <fieldset>
-      <legend className="mb-3 font-bold">
+      <legend className="mb-2.5 font-bold">
         Acabado: <span className="font-normal">{current.name}</span>
         {current.holo && <span className="ml-2 rounded-full bg-mint px-2.5 py-0.5 align-middle text-xs font-bold">+{eur(HOLO_EXTRA)}</span>}
       </legend>
-      <div role="radiogroup" aria-label="Acabado" className="space-y-4">
-        <div>
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-ink-soft">Incluidos</p>
-          <div className="grid gap-2.5 sm:grid-cols-2">
-            {included.map((f) => (
-              <FinishOption key={f.id} id={f.id} active={f.id === value} onSelect={onChange} />
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-ink-soft">
-            Holográficos premium <span className="text-ink">· +{eur(HOLO_EXTRA)}</span>
-          </p>
-          <div className="grid gap-2.5 sm:grid-cols-2">
-            {holo.map((f) => (
-              <FinishOption key={f.id} id={f.id} active={f.id === value} onSelect={onChange} />
-            ))}
-          </div>
-        </div>
+      <div role="radiogroup" aria-label="Acabado" className="grid grid-cols-6 gap-1.5">
+        {finishes.map((f) => {
+          const active = f.id === value;
+          return (
+            <button
+              key={f.id}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              aria-label={f.holo ? `${f.name}, más ${HOLO_EXTRA} euro` : f.name}
+              onClick={() => onChange(f.id)}
+              className={`flex min-w-0 flex-col gap-1 rounded-[10px] text-center text-[11px] font-semibold leading-tight transition duration-150 active:scale-95 ${
+                active ? "border-2 border-ink bg-mint-soft p-[3.5px] pb-1" : "border-[1.5px] border-ink/25 bg-white p-1 pb-1.5 hover:border-ink/60"
+              }`}
+            >
+              <Swatch id={f.id} image={image} />
+              <span>{f.name}</span>
+              {f.holo && <span className="mx-auto mt-auto rounded-full bg-mint px-1.5 text-[10px] font-bold">+{HOLO_EXTRA} €</span>}
+            </button>
+          );
+        })}
       </div>
-      <p className="mt-3 text-xs text-ink-soft">ⓘ La vista previa es orientativa: el acabado real puede verse ligeramente distinto en persona.</p>
+      <p className="mt-3 text-sm text-ink-soft">{current.desc}</p>
+      <p className="mt-1 text-xs text-ink-soft">ⓘ La vista previa es orientativa: el acabado real puede verse ligeramente distinto en persona.</p>
     </fieldset>
   );
 }

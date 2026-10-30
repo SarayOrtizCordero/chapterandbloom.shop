@@ -143,7 +143,7 @@ export function ProductView({ product }: { product: Product }) {
           />
         )}
 
-        {product.hasFinish && <FinishPicker value={finish} onChange={setFinish} />}
+        {product.hasFinish && <FinishPicker value={finish} onChange={setFinish} image={fxImage} />}
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <div className="flex items-center rounded-full border border-ink/60 bg-white">

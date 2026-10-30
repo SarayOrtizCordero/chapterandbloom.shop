@@ -125,6 +125,15 @@ footer :focus-visible {
   to { transform: translateX(50px); }
 }
 
+/* Fundido al cambiar de acabado */
+.fx-in {
+  animation: fx-in 0.6s ease both;
+}
+@keyframes fx-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* Aparición suave al hacer scroll */
 .reveal {
   opacity: 0;
@@ -142,4 +151,5 @@ footer :focus-visible {
   .btn:hover { transform: none; }
   .fx-anim * { animation: none !important; }
   .reveal { opacity: 1; transform: none; transition: none; }
+  .fx-in { animation: none; }
 }

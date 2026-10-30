@@ -107,7 +107,7 @@ export function CustomForm() {
           }}
         />
 
-        <FinishPicker value={finish} onChange={setFinish} />
+        <FinishPicker value={finish} onChange={setFinish} image={files[0] ? { src: files[0].url, kind: "plain" } : null} />
 
         <fieldset>
           <legend className="mb-2 font-bold">Tu diseño (máx. 2 imágenes)</legend>
